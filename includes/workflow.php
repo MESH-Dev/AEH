@@ -16,7 +16,7 @@ function onsave_moderation($post_id){
 
 	$modID = $_POST["fields"]['field_524d8c19819bb'];
 	$curMod = get_post_meta($post_id,'curMod',true);
-	$user_ID = get_current_user_id(); 
+	$user_ID = get_current_user_id();
 
 	$userArray = array();
 	$curAuthors = get_coauthors($post_id);
@@ -38,7 +38,7 @@ function onsave_moderation($post_id){
 			$subject = 'Article for review';
 			$message = "You have been flagged as an editor for $postTitle .<br>
 						Go <a href='$postLink'>here</a> to review the publication.";
-			wp_mail($editorEmail, $subject, $message, $headers);
+			// wp_mail($editorEmail, $subject, $message, $headers);
 
 			//Add meta for current editor & save as coauthor
 			add_post_meta($post_id,'curEdit',$editorID,true) || update_post_meta($post_id,'curEdit',$editorID);
@@ -49,22 +49,22 @@ function onsave_moderation($post_id){
 		}
 
 		//add moderator to $userArray
-		 
+
 			add_post_meta($post_id,'curMod',$modID,true) || update_post_meta($post_id,'curMod',$modID);
 
 			$user = get_userdata($modID);
 			array_push($userArray, $user->user_login);
 			$authout .= $user->user_login.' | ';
-		 
+
 
 		//set the coauthors
 		$coauthors_plus->add_coauthors($post_id,$userArray);
 		add_post_meta($post_id,'authout',$authout,true) || update_post_meta($post_id,'authout',$authout);
- 
+
 		$args = array(
 			'child_of' => $post_id,
 			'post_type' => 'group'
-		); 			
+		);
 		$pages = get_pages($args);
 		foreach($pages as $child) {
 			 $coauthors_plus->add_coauthors($child->ID,$userArray);

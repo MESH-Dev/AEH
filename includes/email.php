@@ -40,15 +40,15 @@
 		          'comment_author_email' => $comment->comment_author_email ,
 		          'comment_author_url' => $comment->comment_author_url ,
 		          'comment_content' => $comment->comment_content);
-		
+
 		$spamcheck = akismet_comment_check( '147248d067f5', $data );
 
-		
+
 		$adArr = array(get_option('admin_email'),'cgraziano@essentialhospitals.org');
 		//$adArr = array('joshdodd@meshfresh.com');
 		if(!$spamcheck){
 			//- Notification of user comments to Comms team/site admins (Maya and Carl)
-		
+
 
 			$subject = "Please address: new comment(s) on $postTitle";
 			$message = "A user has commented on the post $postTitle, published $commentDate<br><br>
@@ -60,9 +60,9 @@
 						The above comment may be hidden until you or another web admin approves it. If this user previously posted comments that were approved, this comment will have been automatically approved and is already visible. Review this comment regardless, as action may be necessary. ";
 			$headers = "From: $postType <cms@essentialhospitals.org>";
 
-			wp_mail($adArr, $subject, $message, $headers);
+			// wp_mail($adArr, $subject, $message, $headers);
 
-	
+
 
 			//- End Admin notification
 
@@ -79,7 +79,7 @@
 							Thank you for being part of the conversation!";
 				$headers = "From: America's Essential Hospitals <cms@essentialhospitals.org>";
 
-				wp_mail($comParentEmail, $subject, $message, $headers);
+				// wp_mail($comParentEmail, $subject, $message, $headers);
 
 			//-end comment reply notification
 			}else{
@@ -99,7 +99,7 @@
 								Do not delete (or decide not to approve) comments simply because they offer an opposing or critical view. It’s better to respond to fair criticism directly. However, some comments on the website or social media channels can be malicious, offensive, or overly negative. It is an accepted risk of maintaining a transparent, open, and active online community and can be handled easily. If such a case arises, the author and communications team should collaborate to plan a course of action.";
 					$headers = "From: $postType <cms@essentialhospitals.org>";
 
-					wp_mail($authorEmail, $subject, $message, $headers);
+					// wp_mail($authorEmail, $subject, $message, $headers);
 				//- End staff author notification
 				}else{
 				//- Notification of new comments to nonstaff blog author
@@ -110,7 +110,7 @@
 								You may wish to answer questions, thank commenters for their thoughts, and judiciously respond to criticism. If you’re unsure how to respond to a comment, consult the communications team at America’s Essential Hospitals at <a href='mailto:help@essentialhospitals.org'>help@essentialhospitals.org</a>.";
 					$headers = "From: $postType <cms@essentialhospitals.org>";
 
-					wp_mail($authorEmail, $subject, $message, $headers);
+					// wp_mail($authorEmail, $subject, $message, $headers);
 				//- End non-staff author notification
 				}
 			}
@@ -129,7 +129,7 @@
 					$lname = $user->last_name;
 					$names .= '<li>'.$fname." ".$lname.'</li>';
 					array_push($emailArr, $user->user_email);
-				
+
 
 				//Set Up email
 				$subject = "New comment(s) in your group discussion:  $postTitle";
@@ -139,11 +139,11 @@
 								You may wish to answer questions, thank commenters for their thoughts, and judiciously respond to criticism. If you’re unsure how to respond to a comment, consult the communications team at America’s Essential Hospitals at <a href='mailto:help@essentialhospitals.org'>help@essentialhospitals.org</a>.";
 				$headers = "From: America's Essential Hospitals <cms@essentialhospitals.org>";
 
-				wp_mail($user->user_email, $subject, $message, $headers);
+				// wp_mail($user->user_email, $subject, $message, $headers);
 				}
-	 
+
 			}
- 
+
 		}//END SPAM CHECK
 	}
 
@@ -174,16 +174,16 @@ function akismet_comment_check( $key, $data ) {
 	$http_request .= $request;
 	$response = '';
 	if( false != ( $fs = @fsockopen( 'ssl://' . $http_host, $port, $errno, $errstr, 10 ) ) ) {
-	     
+
 	    fwrite( $fs, $http_request );
-	 
+
 	    while ( !feof( $fs ) )
 	        $response .= fgets( $fs, 1160 ); // One TCP-IP packet
 	    fclose( $fs );
-	     
+
 	    $response = explode( "\r\n\r\n", $response, 2 );
 	}
-	 
+
 	if ( 'true' == $response[1] )
 	    return true;
 	else
@@ -192,15 +192,15 @@ function akismet_comment_check( $key, $data ) {
 
 //EMAIL FULL GROUP ON GROUP DICSUSSION APPROVAL  -- called from content-groupdiscussion.php
 
-//add_action( 'wp_insert_post', 'email_group', 10, 1 );	 --do this to update users on discussion created in backend to notify groups. need to add parentID 
- 
-function email_group($post_id) { 
-	
+//add_action( 'wp_insert_post', 'email_group', 10, 1 );	 --do this to update users on discussion created in backend to notify groups. need to add parentID
+
+function email_group($post_id) {
+
 	$post = get_post($post_id);
 	$postTitle = $post->post_title;
 	$post_type = $post->post_type;
 	$postURL = get_permalink($post->ID);
- 
+
 	if($post_type == 'discussion'){
 		$post_id = $post->ID;
 		$postDate = strtotime($post->post_date);
@@ -213,9 +213,9 @@ function email_group($post_id) {
 			$groupID = get_post_meta( $post_id, 'parentID', true);
 
 
-			
 
-			
+
+
 			if($groupID != ''){
  			$members = get_post_meta($groupID,'autp',true);
  			$emailArr = array();
@@ -231,20 +231,20 @@ function email_group($post_id) {
 				$message = "A new discussion has been posted to your group, $groupTitle: <br><br><a href='$postURL/'>$postTitle</a><br><br>Thank you for being part of the conversation!";
 				$headers = "From: America's Essential Hospitals <cms@essentialhospitals.org>";
 
-				wp_mail($user->user_email, $subject, $message, $headers);
+				// wp_mail($user->user_email, $subject, $message, $headers);
 			}
 
 			//Set Up email
-			
+
 		}
 
 	}else{
 		break;
 	}
- 
+
 
 }
- 
+
 
 
 
@@ -299,11 +299,11 @@ function email_group($post_id) {
 			$message .= sprintf( __('If you have any problems, please contact me at %s.'), get_option('admin_email') ) . "\r\n\r\n";
 			$message .= __('Adios!');
 
-			wp_mail(
-				$user_email,
-				sprintf( __('Hello there'), get_option('blogname') ),
-				$message
-			);
+			// wp_mail(
+			//	$user_email,
+			//	sprintf( __('Hello there'), get_option('blogname') ),
+			//	$message
+			// );
 		}
 	}
 
@@ -342,7 +342,7 @@ function email_group($post_id) {
 					<a href='$adminURL'>Approve or decline this request</a>.";
 		$headers = "From: Member Network <cms@essentialhospitals.org>";
 
-		wp_mail($adArr, $subject, $message, $headers);
+		// wp_mail($adArr, $subject, $message, $headers);
 	}
 
 	//- User notified of private group creation
@@ -387,7 +387,7 @@ function email_group($post_id) {
 				Again, thank you for engaging your fellow members, and good luck reaching your goals. As the group leader, you can guide the conversation how you choose, but we are happy to help if you have questions. When the group is no longer necessary, please contact your staff moderator or <a href='mailto:$adminEmail'>general web admin</a> to close it.";
 				$headers = "From: America's Essential Hospitals <cms@essentialhospitals.org>";
 
-				wp_mail($authorEmail, $subject, $message, $headers);
+				// wp_mail($authorEmail, $subject, $message, $headers);
 			}
 		}
 	}
@@ -433,7 +433,7 @@ function email_group($post_id) {
 				Contact the communications team at help@essentialhospitals.org if you have any questions about using the Member Network and community discussions.";
 				$headers = "From: Member Network <cms@essentialhospitals.org>";
 
-				wp_mail($authorEmail, $subject, $message, $headers);
+				// wp_mail($authorEmail, $subject, $message, $headers);
 			}
 		}
 	}
@@ -468,7 +468,7 @@ function email_group($post_id) {
 					If you have questions or comments, contact the America’s Essential Hospitals communications team at <a href=\"mailto:help@essentialhospitals.org\">help@essentialhospitals.org</a>.";
 		$headers = "From: America's Essential Hospitals <cms@essentialhospitals.org>";
 
-		wp_mail($toEmail, $subject, $message, $headers);
+		// wp_mail($toEmail, $subject, $message, $headers);
 	}
 
 

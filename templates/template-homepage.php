@@ -67,27 +67,19 @@
 
  		<div class="twelve columns filters">
  			<span> FILTER BY &rsaquo;&rsaquo;</span>
-			<a href="http://localhost/aeh/action">
-				<div id="red_btn" data-filter="policy" class="filter_btn ">
-	 				<img src="<?php bloginfo('template_directory'); ?>/images/policy.png"> <span>Action</span>
-	 			</div>
-			</a>
-			<a href="http://localhost/aeh/quality">
-				<div id="green_btn" data-filter="quality" class="filter_btn ">
-					<img src="<?php bloginfo('template_directory'); ?>/images/quality.png"> <span>Quality</span>
-				</div>
-			</a>
- 			<a href="http://localhost/aeh/education">
-				<div id="gray_btn" data-filter="education" class="filter_btn ">
-	 				<img src="<?php bloginfo('template_directory'); ?>/images/edu.png"> <span>Education</span>
-	 			</div>
-			</a>
-			<a href="http://localhost/aeh/institute">
-				<div id="blue_btn" data-filter="institute" class="filter_btn ">
-	 				<img src="<?php bloginfo('template_directory'); ?>/images/inst.png"> <span>Institute</span>
-	 			</div>
-			</a>
- 			<!-- <div id="all" data-filter="*" class="filter_btn all"><span>Reset</a></div> -->
+ 			<div id="red_btn" data-filter="policy" class="filter_btn ">
+ 				<img src="<?php bloginfo('template_directory'); ?>/images/policy.png"> <span>Action</span>
+ 			</div>
+ 			<div id="green_btn" data-filter="quality" class="filter_btn ">
+ 				<img src="<?php bloginfo('template_directory'); ?>/images/quality.png"> <span>Quality</span>
+ 			</div>
+ 			<div id="gray_btn" data-filter="education" class="filter_btn ">
+ 				<img src="<?php bloginfo('template_directory'); ?>/images/edu.png"> <span>Education</span>
+ 			</div>
+ 			<div id="blue_btn" data-filter="institute" class="filter_btn ">
+ 				<img src="<?php bloginfo('template_directory'); ?>/images/inst.png"> <span>Institute</span>
+ 			</div>
+ 			<div id="all" data-filter="*" class="filter_btn all"><span>Reset</a></div>
  		</div>
  	</div>
 
