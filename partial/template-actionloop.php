@@ -36,14 +36,6 @@
 			</div>
 			<div class="nine columns">
 				<div class="frame oneperframe" id="oneperframe">
-					<ul class="clearfix">
-
-							<?php
-
-							$i = 0;
-							$n = 5;
-
-							?>
 
 							<?php
 							$sticky = get_option( 'sticky_posts' );
@@ -69,7 +61,7 @@
 							if ( $query->have_posts() ) { while ( $query->have_posts() ) { $query->the_post();
 								$postType = get_post_type( get_the_ID() ); ?>
 
-									<?php if ($i % $n == 0) { echo "<li>"; } ?>
+
 
 									<div class="item">
 										<div class="item-container">
@@ -78,8 +70,8 @@
 										</div>
 									</div>
 
-									<?php if ($i % $n == ($n - 1)) { echo "</li>"; } ?>
-									<?php $i++; ?>
+
+
 
 							<?php } } wp_reset_query(); ?>
 
@@ -100,7 +92,7 @@
 								$alerts = get_posts($args);
 								if($alerts){ ?>
 
-								<?php if ($i % $n == 0) { echo "<li>"; } ?>
+
 
 									<div class="item <?php echo $postType; ?>-item">
 										<div class="item-container">
@@ -121,8 +113,7 @@
 										</div>
 									</div>
 
-								<?php if ($i % $n == ($n - 1)) { echo "</li>"; } ?>
-								<?php $i++; ?>
+
 
 							<?php } ?>
 
@@ -151,41 +142,41 @@
 										$postColor = 'bluee';
 									} ?>
 
-									<?php if ($i % $n == 0) { echo "<li>"; } ?>
 
-										<div class="item <?php echo $postType; ?>-item">
-											<div class="item-container">
-							    			<div class="item-icon"><img src="<?php bloginfo('template_directory'); ?>/images/icon-<?php echo $postType; ?>.png" /></div>
 
-						    				<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+									<div class="item <?php echo $postType; ?>-item">
+										<div class="item-container">
+						    			<div class="item-icon"><img src="<?php bloginfo('template_directory'); ?>/images/icon-<?php echo $postType; ?>.png" /></div>
 
-						    				<span class="item-date"><?php the_time('M j, Y'); ?> ||</span>
-						    				<span class="item-author"><a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>/?prof=article"><?php the_author(); ?></a></span>
+					    				<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 
-							    			<p><?php if(get_field('long_excerpt')){ the_field('long_excerpt'); } else { the_excerpt();} ?> <a class="more" href="<?php the_permalink(); ?>"> view more » </a>
-							    			</p>
+					    				<span class="item-date"><?php the_time('M j, Y'); ?> ||</span>
+					    				<span class="item-author"><a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>/?prof=article"><?php the_author(); ?></a></span>
 
-							    			<div class="item-tags">
-							    				 <?php //the_tags(' ',' ',' '); ?>
-								    				<?php $tags = get_the_terms(get_the_ID(),'post_tag');
-							    					if($tags){
-							    						$cnt = 0;
-							    						foreach($tags as $tag)
-							    						{
-								    						$tagLink = get_term_link($tag->term_id,'post_tag');
-								    						$tagSlug = $tag->slug;
-								    						$tagSlug = str_replace('-',' ', $tagSlug);
-								    						if ($cnt != 0) echo ", ";
-									    					echo "<a href='".$tagLink."'>".$tagSlug."</a>";
-									    					$cnt++;
-									    				}
-								    				}?>
-							    			</div>
-											</div>
-							  		</div>
+						    			<p><?php if(get_field('long_excerpt')){ the_field('long_excerpt'); } else { the_excerpt();} ?> <a class="more" href="<?php the_permalink(); ?>"> view more » </a>
+						    			</p>
 
-								<?php if ($i % $n == ($n - 1)) { echo "</li>"; } ?>
-								<?php $i++; ?>
+						    			<div class="item-tags">
+						    				 <?php //the_tags(' ',' ',' '); ?>
+							    				<?php $tags = get_the_terms(get_the_ID(),'post_tag');
+						    					if($tags){
+						    						$cnt = 0;
+						    						foreach($tags as $tag)
+						    						{
+							    						$tagLink = get_term_link($tag->term_id,'post_tag');
+							    						$tagSlug = $tag->slug;
+							    						$tagSlug = str_replace('-',' ', $tagSlug);
+							    						if ($cnt != 0) echo ", ";
+								    					echo "<a href='".$tagLink."'>".$tagSlug."</a>";
+								    					$cnt++;
+								    				}
+							    				}?>
+						    			</div>
+										</div>
+						  		</div>
+
+
+
 
 						<?php } } wp_reset_query(); ?>
 
@@ -216,50 +207,52 @@
 							query_posts( $args ); if(have_posts()){ while ( have_posts() ) { the_post();
 							?>
 
-							<?php if ($i % $n == 0) { echo "<li>"; } ?>
+
 
 								<div class="item">
+									<div class="item-container">
 
-				    			<div class="item-icon"> Upcoming Webinar
-				    				<img src="<?php bloginfo('template_directory'); ?>/images/icon-policy.png" />
-				    			</div>
+					    			<div class="item-icon"> Upcoming Webinar
+					    				<img src="<?php bloginfo('template_directory'); ?>/images/icon-policy.png" />
+					    			</div>
 
-			    				<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
-			    				<span class="item-date"><?php echo date('M j, Y', get_field('webinar_date')); ?></span>
+				    				<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+				    				<span class="item-date"><?php echo date('M j, Y', get_field('webinar_date')); ?></span>
 
-				    			<p><?php
-									$exc = get_the_excerpt();
-									$line=$exc;
-									if (preg_match('/^.{1,100}\b/s', $exc, $match))
-									{
-									    $line=$match[0];
-									}
-									echo $exc; ?>
+					    			<p><?php
+										$exc = get_the_excerpt();
+										$line=$exc;
+										if (preg_match('/^.{1,100}\b/s', $exc, $match))
+										{
+										    $line=$match[0];
+										}
+										echo $exc; ?>
 
-									<a class="more" href="<?php the_permalink(); ?>"> view more » </a>
-				    			</p>
-				    			<span class="reserve button redd policy"><a href="<?php the_field('registration_link'); ?>">Reserve Your Spot</a></span>
-				    			<div class="item-tags">
-				    				<?php //the_tags(' ',' ',' '); ?>
-				    				<?php $tags = get_the_terms(get_the_ID(),'post_tag');
-			    					if($tags){
-			    						$cnt = 0;
-			    						foreach($tags as $tag)
-			    						{
-				    						$tagLink = get_term_link($tag->term_id,'post_tag');
-				    						$tagSlug = $tag->slug;
-				    						$tagSlug = str_replace('-',' ', $tagSlug);
-				    						if ($cnt != 0) echo ", ";
-					    					echo "<a href='".$tagLink."'>".$tagSlug."</a>";
-					    					$cnt++;
-					    				}
-				    				}?>
-				    			</div>
+										<a class="more" href="<?php the_permalink(); ?>"> view more » </a>
+					    			</p>
+					    			<span class="reserve button redd policy"><a href="<?php the_field('registration_link'); ?>">Reserve Your Spot</a></span>
+					    			<div class="item-tags">
+					    				<?php //the_tags(' ',' ',' '); ?>
+					    				<?php $tags = get_the_terms(get_the_ID(),'post_tag');
+				    					if($tags){
+				    						$cnt = 0;
+				    						foreach($tags as $tag)
+				    						{
+					    						$tagLink = get_term_link($tag->term_id,'post_tag');
+					    						$tagSlug = $tag->slug;
+					    						$tagSlug = str_replace('-',' ', $tagSlug);
+					    						if ($cnt != 0) echo ", ";
+						    					echo "<a href='".$tagLink."'>".$tagSlug."</a>";
+						    					$cnt++;
+						    				}
+					    				}?>
+					    			</div>
 
+									</div>
 					  		</div>
 
-								<?php if ($i % $n == ($n - 1)) { echo "</li>"; } ?>
-								<?php $i++; ?>
+
+
 
 
 						<?php } } wp_reset_query();?>
@@ -300,9 +293,9 @@
 								}
 							?>
 
-							<?php if ($i % $n == 0) { echo "<li>"; } ?>
 
-								<div class="item <?php echo $postColor; ?>  <?php echo get_post_type( get_the_ID() ); ?>-item">
+
+								<div class="item <?php echo $postColor; ?>  <?php echo get_post_type( get_the_ID() ); ?>-item ">
 				    			<div class="item-icon">
 				    				<?php $terms = wp_get_post_terms(get_the_ID(), 'series');
 				    					if($terms){
@@ -346,8 +339,8 @@
 				    			</div>
 				  			</div>
 
-							<?php if ($i % $n == ($n - 1)) { echo "</li>"; } ?>
-							<?php $i++; ?>
+
+
 
 						<?php endwhile; wp_reset_query();?>
 
@@ -391,9 +384,9 @@
 							}
 						?>
 
-							<?php if ($i % $n == 0) { echo "<li>"; } ?>
 
-								<div class="item <?php echo $postType; ?>-item">
+
+								<div class="item <?php echo $postType; ?>-item testt">
 									<div class="item-container">
 
 					    			<div class="item-icon">
@@ -448,11 +441,11 @@
 						  		</div>
 								</div>
 
-							<?php if ($i % $n == ($n - 1)) { echo "</li>"; } ?>
-							<?php $i++; ?>
+
+
 
 						<?php endwhile; wp_reset_query();?>
-					</ul>
+
 				</div>
 			</div>
 </div>

@@ -298,6 +298,10 @@ textarea, input[type=email] {
 	height: inherit;
 }
 
+.close {
+	display: none;
+}
+
 /* BASE GRID
  * ------------------------------------------------ */
 /* line 3, sass/grid/_grid.scss */

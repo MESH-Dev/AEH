@@ -9,7 +9,7 @@ $(document).ready(function(){
 	});
 
 	//URL for template
-	var templateDir = 'http://essentialhospitals.org/wp-content/themes/EssentialHospitals';
+	var templateDir = 'http://localhost/aeh/wp-content/themes/EssentialHospitals';
 	var queryURL = templateDir+'/partial/template-postquery.php';
 	var querytype = $('#pagefilter').attr('data-query');
 	var pageQueryURL = templateDir+'/partial/template-postquery'+querytype+'.php';
@@ -165,7 +165,8 @@ $(document).ready(function(){
 			$('.items > div.item:eq(' + currSlide + ')').addClass('active');
 		}
 	}).navigator();
-	var api = $('#fader').data('scrollable');
+
+	var api = $('.frame').data('scrollable');
 	//Run on-click
 	//Home
 	$('body.home div.filters div').click(function(){
@@ -175,7 +176,9 @@ $(document).ready(function(){
 			$(this).addClass('active');
 			dataFilter = $(this).attr('data-filter');
 			//Hide elements
-			$('#postBox .item').addClass('close');
+
+			$('.frame').addClass('close');
+
 			api.seekTo(0,1);
 			//Empty DIV then query posts
 			setTimeout(function(){
@@ -247,6 +250,7 @@ $(document).ready(function(){
 			},300);
         }
 	});
+
 	//Action/Quality/Education/Institute
 	$('ul#pagefilter:not(.webinar) li').click(function(){
 		if(!$(this).hasClass('active')){
@@ -270,6 +274,7 @@ $(document).ready(function(){
 			}
         }
 	});
+
 	//Webinars (dual filter)
 	$('ul#pagefilter.webinar li').click(function(){
 		if(!$(this).hasClass('active')){

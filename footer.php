@@ -141,6 +141,20 @@
 
 	<script>
 
+		$( ".item" ).wrapAll( "<ul class='clearfix link-frame' />");
+
+		var $set = $('#oneperframe ul.link-frame').children();
+
+		for(var i=0, len = $set.length; i < len; i++){
+			if (i % 5 == 0) {
+				if (i == (parseInt($set.length / 5) * 5)) {
+					$set.slice(i, $set.length).wrapAll('<li></li>');
+				} else {
+					$set.slice(i, i+5).wrapAll('<li></li>');
+				}
+			}
+		}
+
 		//Let's do something awesome!
 		'use strict';
 
@@ -186,23 +200,23 @@
 			});
 			wall.fitWidth();
 
-			function shuffle(arr) {
-			    var shuffled = arr.slice(0), i = arr.length, temp, index;
-			    while (i--) {
-			        index = Math.floor(i * Math.random());
-			        temp = shuffled[index];
-			        shuffled[index] = shuffled[i];
-			        shuffled[i] = temp;
-			    }
-			    return shuffled;
-			}
-
-			// Create the array
-			var i = 5, arr = [];
-			while (i--) arr[i] = i;
-
-			// Shuffle it
-			arr = shuffle(arr);
+			// function shuffle(arr) {
+			//     var shuffled = arr.slice(0), i = arr.length, temp, index;
+			//     while (i--) {
+			//         index = Math.floor(i * Math.random());
+			//         temp = shuffled[index];
+			//         shuffled[index] = shuffled[i];
+			//         shuffled[i] = temp;
+			//     }
+			//     return shuffled;
+			// }
+			//
+			// // Create the array
+			// var i = 5, arr = [];
+			// while (i--) arr[i] = i;
+			//
+			// // Shuffle it
+			// arr = shuffle(arr);
 
 			// Array is now the numbers 0-15 in a random order
 

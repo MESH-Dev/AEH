@@ -1,10 +1,10 @@
 <?php
- 
+
 //include('includes/imis.php');
 //include('functions/cpt.php');
 //include('functions/custom-taxonomies.php');
 
- 
+
 
 //Roles and Workflow
 include('includes/roles.php');
@@ -12,7 +12,7 @@ include('includes/workflow.php');
 include('includes/email.php');
 include('includes/twitter.php');
 
- 
+
 /********************************************* SWITCHES/VARIABLE SETUP ***********************************************/
 
 $test = false;														// true = TEST DATABASE, false = PRODUCTION DATABASE
@@ -49,7 +49,7 @@ if ($test){
 	define ("IMIS_SOAP_URL",'http://isgweb.naph.org/ibridge/Account.asmx?wsdl'); 									// URL for SOAP Client comms with iMIS
 	define ("IMIS_POST_URL",'http://isgweb.naph.org/ibridge/DataAccess.asmx/ExecuteDatasetStoredProcedure');		// URL for POST comms (read) with iMIS
 	define ("SP_POST_UPDATE_URL", 'http://isgweb.naph.org/ibridge/DataAccess.asmx/ExecuteStoredProcedure');			// URL for POST execute SP on Account Updates
-	define ("SOAP_DEMOG_UPDATE_URL",'http://isgweb.naph.org/ibridge/Demographics.asmx?wsdl');	
+	define ("SOAP_DEMOG_UPDATE_URL",'http://isgweb.naph.org/ibridge/Demographics.asmx?wsdl');
 	define ("AUTHENTICATE_URL",'http://isgweb.naph.org/ibridge/Authentication.asmx?wsdl');					// URL for POST execute SP on Demographic Updates
 }
 
@@ -778,7 +778,7 @@ register_sidebar( array(
 	'after_title' => '</h1>',
 ) );
 
- 
+
 
 
 /*** CLEAN UP FUNCTIONS ----------------------------------------*/
@@ -2028,8 +2028,8 @@ function commentWalker($comment, $args, $depth) {
 		if($comment->comment_type == 'pingback') {
 			$ispingb = true;
 		}
-		 
- 
+
+
 
 		if ( 'div' == $args['style'] ) {
 			$tag = 'div';
@@ -2047,7 +2047,7 @@ function commentWalker($comment, $args, $depth) {
 
 			<div class="comment-author vcard">
 				<?php if(!$ispingb){ ?>
-				<?php if ($args['avatar_size'] != 0) echo '<a href="'.get_permalink(276).'?member='.$comment->user_id.'">'.get_avatar( $comment, $args['avatar_size'] ).'</a>'; 
+				<?php if ($args['avatar_size'] != 0) echo '<a href="'.get_permalink(276).'?member='.$comment->user_id.'">'.get_avatar( $comment, $args['avatar_size'] ).'</a>';
 						else echo '<img src="http://essentialhospitals.org/wp-content/uploads/2015/04/ad516503a11cd5ca435acc9bb6523536.png" class="avatar avatar-96 photo" height="96" width="96">';
 				?>
 
@@ -2160,15 +2160,15 @@ function prof_update_hook( $fields )
 }
 
 function admin_profile_update( $user_id ) {
-   
+
     // password changed. fix for changing pw from admin..
     if($_POST['pass1']!='')
-    {	
+    {
     	$pass = $_POST['pass1'];
     	update_user_meta($user_id,'aeh_password',$pass);
     }
     update_imis($user_id);
-	 
+
 }
 
 
@@ -2278,7 +2278,7 @@ function update_imis_from_wp($imis_id, $userdata, $user){
 
 
 
- 
+
 		$params = array(
 			'securityPassword'=> SOAP_ACCOUNT_PWD,
 			'id'              => (string)$imis_id,
@@ -2348,7 +2348,7 @@ function update_imis_from_wp($imis_id, $userdata, $user){
 		$result = addslashes($result);
     	$wpdb->query("INSERT INTO `test` (`name`, `value`) VALUES ('WEB_CHG response: $check', '$result')");
     	unset ($demographic);
- 
+
 		$params = array(
 			'securityPassword' => SOAP_ACCOUNT_PWD,
 			'address' => array(
@@ -2366,7 +2366,7 @@ function update_imis_from_wp($imis_id, $userdata, $user){
 		$result     = $response->UpdateAddressResult;
 		$result = addslashes($result);
          $wpdb->query("INSERT INTO `test` (`name`, `value`) VALUES ('Address response: $check', '$result')");
- 
+
 		if ($result == $imis_id){
 			$return = $imis_id;
 		}else{
@@ -2460,7 +2460,7 @@ function update_create_imis_from_wp($imis_id, $userdata, $user){
 
 
 
- 
+
 		$params = array(
 			'securityPassword'=> SOAP_ACCOUNT_PWD,
 			'id'              => (string)$imis_id,
@@ -2528,7 +2528,7 @@ function update_create_imis_from_wp($imis_id, $userdata, $user){
 		$result = addslashes($result);
     	$wpdb->query("INSERT INTO `test` (`name`, `value`) VALUES ('WEB_CHG response: $check', '$result')");
     	unset ($demographic);
- 
+
 		$params = array(
 			'securityPassword' => SOAP_ACCOUNT_PWD,
 			'address' => array(
@@ -2624,7 +2624,7 @@ function check_aeh_email($email){ // this is the email address to check and retu
 
 add_action('aeh_import_imis', 'import_imis');
 
-function import_imis() { 	 
+function import_imis() {
 
 // fill up the wp_aeh_import & wp_aeh_import_full tables from iMIS
 	//Each run pulls 1000 users from iMIS into wp_aeh_import table.
@@ -2871,7 +2871,7 @@ function import_imis() {
 
 		if (EMAILCRON){
 			$headers = "From: Cron Job <cron@essentialhospitals.org>\r\n";
-			wp_mail('steve@meshfresh.com', 'iMIS data imported', $cronlogtext, $headers);
+			// wp_mail('steve@meshfresh.com', 'iMIS data imported', $cronlogtext, $headers);
 		}
 
 }
@@ -2879,7 +2879,7 @@ function import_imis() {
 /******************************************* CRON TO TAKE iMIS VALUES AND UPDATE WP USERS *************************************************/
 
 add_action('aeh_update_wp_users', 'update_wp_users');
-function update_wp_users() { 
+function update_wp_users() {
 
 	//Updates wp account user_meta with iMIS data
 	global $wpdb;
@@ -2991,7 +2991,7 @@ function update_wp_users() {
 		update_user_meta($wp_id, 'prefix', $prefix);
 		update_user_meta($wp_id, 'imis_verified', '1');
 		update_user_meta($wp_id, 'role', 'member');
-		//$the_user = new WP_User($wp_id); 
+		//$the_user = new WP_User($wp_id);
 		//3$the_user->set_role('member');
 
 
@@ -3121,7 +3121,7 @@ function get_imis_user($imisuser){
 	if ($result['status'] == 'ok'){ 									//if no status then an error occurred.
 		$xml = simplexml_load_string($result['content']);
 		if ($xml === false)return false;
-		
+
 		$xml = dom_import_simplexml($xml);
 		if ($xml === false)return false;
 		$nodelist = $xml->getElementsByTagName('Table');
@@ -3224,14 +3224,14 @@ function find_new_wp_users() { // call this cron from 1-4 hourly
 add_action('aeh_insert_new_wp_users', 'insert_new_wp_users');
 function insert_new_wp_users(){  // call this cron about 1-4 hourly but not at the same time as the above cron
 	global $wpdb;
-			
+
 	$option = get_option('imis_users_to_add');
-			
+
 	foreach($option as $imis_id){
 		$check  = $wpdb->query("SELECT * FROM `wp_usermeta` WHERE `meta_key` = 'aeh_imis_id' AND `meta_value` = '$imis_id'"); //make sure this user doesn't already exist first
- 
+
 		if (!$check){  // if this user has been added from iMIS to WP then skip adding this user or else add
-			echo add_one_imis_user($imis_id);	
+			echo add_one_imis_user($imis_id);
 			//echo $imis_id . "ADDED";								// loop here adding individual WP accounts programmatically.
 		}
 	}
@@ -3301,7 +3301,7 @@ function add_one_imis_user($imis_id){
 		//if ($imid == ''){
 		 	update_user_meta($user->ID, 'aeh_imis_id', $imis_id);
 		//}
-		 
+
 
 		$errorst .= $user->ID . " | imisID = " . $imid . "<br>";
 		return $errorst;
@@ -3560,9 +3560,9 @@ function get_imis_tables(){
 				}
 				if($titles!= '$companies'){
 					update_option("company_list", $companies);
-				 
+
 					//print_r($companies);
-					 
+
 				}
 			}
 		}
@@ -3932,50 +3932,50 @@ add_filter('wp_mail_from','from_mail');
     }
 
 function update_presentation_section( $post_id, $post ) {
-	$pt = $post->post_type; 
- 	 
+	$pt = $post->post_type;
+
 	if ($pt == 'presentation'){
-		
+
 		$event = get_post_meta($post_id,'event',true);
- 
+
 		$section = get_post_meta($event,'section',true);
-		update_post_meta($post_id, 'section', $section); 
-	} 
+		update_post_meta($post_id, 'section', $section);
+	}
 	else{
 		return;
 	}
 
 }
 add_action( 'save_post', 'update_presentation_section', 10, 2 );
- 
+
 
 
 //WYSISYG FOR COMMENTS
- 
+
 add_filter( 'comment_form_field_comment', 'comment_editor' );
- 
+
 function comment_editor() {
   global $post;
- 
+
   ob_start();
- 
+
   wp_editor( '', 'comment', array(
     'textarea_rows' => 15,
     'teeny' => true,
     'quicktags' => false,
     'media_buttons' => false
   ) );
- 
+
   $editor = ob_get_contents();
- 
+
   ob_end_clean();
- 
+
   //make sure comment media is attached to parent post
   $editor = str_replace( 'post_id=0', 'post_id='.get_the_ID(), $editor );
- 
+
   return $editor;
 }
- 
+
 // wp_editor doesn't work when clicking reply. Here is the fix.
 add_action( 'wp_enqueue_scripts', '__THEME_PREFIX__scripts' );
 function __THEME_PREFIX__scripts() {
@@ -4001,8 +4001,8 @@ function __THEME_PREFIX__wp_head() {
     });
   });
 </script>
-<?php 
-}  
+<?php
+}
 
 
 /*
@@ -4028,7 +4028,7 @@ function undo_create_term ($term_id, $tt_id, $taxonomy) {
 
 //add_filter( 'wp_tag_cloud', 'my_admin_tag_cloud_args' );
 function my_admin_tag_cloud_args( $args ) {
- 
+
 	$args = array(
 		'smallest' => 9, 'largest' => 9, 'unit' => 'pt', 'number' => 400,
 		'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
@@ -4061,7 +4061,7 @@ function my_admin_tag_cloud_args( $args ) {
 
 	echo $return;
 
- 
+
 
 
 
@@ -4074,7 +4074,7 @@ function my_admin_tag_cloud_args( $args ) {
 
 // more stuff
 require_once('functions/class-events.php');
-require_once('functions/class-presentations.php');    
+require_once('functions/class-presentations.php');
 
 
 
@@ -4088,32 +4088,32 @@ function authenticate_user($email, $password){
 		'username'            => $email,
 		'password'      => $password
 	);
-  
+
 	$result = post_request('http://isgweb.naph.org/ibridge/Authentication.asmx/AuthenticateUser', $params);
 
- 
-	//print_r($result);
- 
- 
-	if ($result['status'] == 'ok'){ 	
 
-		
-		$string = $result['content']; 
+	//print_r($result);
+
+
+	if ($result['status'] == 'ok'){
+
+
+		$string = $result['content'];
 		$string = str_replace('encoding="UTF-16"','',$string);
 		//$string = utf16_decode($string);
 		$xml = new SimpleXMLElement($string);
 		print_r($string);
- 
- 
+
+
 
 		//$xml = simplexml_load_string($xmlData)  or die("Error: Can not create object");
 
       // print_r($xml);
 
- 
-		
- 
-		 
+
+
+
+
 
 
 		//return $result;
@@ -4125,13 +4125,13 @@ function authenticate_user($email, $password){
 
 
 // ----------- Remove Tag Metabox and Show as checklist -------------- //
- 
- 
+
+
 add_action( 'meta_boxes', 'do_my_meta_boxes' );
- 
+
 function do_my_meta_boxes( $post_type ) {
- 
-        
+
+
 }
 
 /* remove some meta boxes from pages and posts -------------------------
@@ -4140,7 +4140,7 @@ feel free to comment / uncomment  */
 function customize_meta_boxes($post_type ) {
   /* Removes meta boxes from pages */
   remove_meta_box('postcustom','page','normal'); // custom fields metabox
- 
+
 }
 
 //TAGS AS CHECKBOXES!
@@ -4194,7 +4194,7 @@ function wd_hierarchical_tags_register() {
 
 }
 
- 
- 
 
-?> 
+
+
+?>
