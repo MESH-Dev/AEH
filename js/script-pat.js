@@ -318,6 +318,7 @@ $(document).ready(function(){
 			},300);
         }
 	});
+
 	//Post Query AJAX function
 	function request(queryURL, dataFilter, targetDiv, callback){
 	    $.ajax({
@@ -337,6 +338,7 @@ $(document).ready(function(){
 	       	callback();
 		}
 	}
+
 	//Dual Post Query AJAX function
 	function requestDual(queryURL, dataFilter, timeFilter, targetDiv, callback){
 	    $.ajax({
